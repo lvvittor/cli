@@ -8,6 +8,10 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 app = typer.Typer()
 
 
+def parse_output(ouput: str):
+    typer.echo(ouput)
+
+
 @app.command()
 def main(exe: bool = typer.Option(False), prompt: Optional[str] = typer.Argument("", help="The prompt to use")):  
     if exe:

@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "ccli"
+name = "che"
 version = "0.1.0"
 description = ""
 authors = ["Lucas Vittor <lvvittor@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
-ccli = "ccli.main:app"
+che = "che.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.10"

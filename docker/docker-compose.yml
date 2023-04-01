@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+    backend:
+        image: sia-python:latest
+        container_name: sia-python
+        build:
+            context: ../
+            dockerfile: ./docker/Dockerfile
+        ports:
+            - "8002:80"
+        volumes:
+            - ..:/project
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
