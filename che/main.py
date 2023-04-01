@@ -9,6 +9,9 @@ import json
 from langchain.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.docstore.document import Document
+from rich.console import Console
+from rich.panel import Panel
+from rich.syntax import Syntax
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -18,6 +21,7 @@ PLUGINS_FILE = "plugins.json"
 THRESHOLD = 0.45
 
 app = typer.Typer()
+
 
 def is_unix_system():
     return platform.system().lower().startswith("lin") or platform.system().lower().startswith("dar")
@@ -37,8 +41,8 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
         return
 
     is_user_satisfied = None
-
-    plugin_name = check_if_plugin_call(prompt)
+    plugin_name = None
+    # plugin_name = check_if_plugin_call(prompt)
 
     if plugin_name != None:
         # Call OpenAI API with the plugin path, description and prompt to get the command to execute along with its parameters
@@ -57,8 +61,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
             explanation = None
             is_user_satisfied = True
 
-            typer.echo(answer)
-            typer.echo("\n")
+            print_command(answer)
 
             # What to do with the answer
 
@@ -77,8 +80,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
                     pyperclip.copy(answer)
                 elif menu_entry_index == 2:
                     explanation = get_command_explanation(answer)
-                    typer.echo(explanation)
-                    typer.echo("\n")
+                    print_command(explanation, is_explanation=True)
                 elif menu_entry_index == 3:
                     is_user_satisfied = False
 
@@ -171,6 +173,27 @@ def get_menu_selection(options):
         menu_entry_index = options.index(answers["menu_entry_index"])
     
     return menu_entry_index
+
+
+def print_command(text: str, is_explanation: bool = False):
+    title = "Generated command"
+    if is_explanation:
+        title = "Explanation"
+        syntax = text
+        border_style = "green1"
+    else:
+        syntax = Syntax(text, "bash")
+        border_style = "orange1"
+    console = Console()
+    console.print(
+        Panel(
+            syntax,
+            title=title,
+            expand=True,
+            border_style=border_style,
+            padding=(1, 2)
+        )
+    )
 
 
 def get_command_explanation(command):
