@@ -1,0 +1,16 @@
+{
+  "apis": [
+    {
+      "name": "MercadoLibre",
+      "url": "https://api.mercadolibre.com/sites/MLA/search?q=iphone&limit=10",
+      "description": "Get the best deals on iPhone 11 Pro Max 256GB at T-Mobile. Shop iPhone 11 Pro Max 256GB and compare the latest Apple iPhone 11 Pro Max 256GB prices and deals. Get FREE SHIPPING on phones and devices with new activations."
+    }
+  ],
+  "executables": [
+    {
+      "name": "VideoSizeReducer",
+      "path": "plugins/VideoSizeReducer.sh",
+      "description": "Reduce the size of a video file by converting it to a lower resolution and/or lower bitrate. Receives the path to the video file as a parameter."
+    }
+  ]
+}
