@@ -9,15 +9,32 @@ app = typer.Typer()
 
 
 @app.command()
-def main(prompt: Optional[str] = typer.Argument(..., help="The prompt to use")):
+def main(exe: bool = typer.Option(False), prompt: Optional[str] = typer.Argument("", help="The prompt to use")):  
+    if exe:
+        # API CALL, EXECUTABLES OR BASH SCRIPTS
+        typer.launch("./ccli/videoPlugin.sh")
+        return
+
     res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a linux terminal. Users will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside the tags <start> and <end>, and nothing else. do not write explanations. do not type commands unless i instruct you to do so. when i need to tell you something in english, i will do so by putting text inside curly brackets {like this}. if you do not have access to the system's resources just output the command that would have been run. never, ever, respond with english words trying to talk to the user. you just output bash commands."},
+            {"role": "system", "content": "You are an AI Terminal Copilot. Your job is to help users find the right terminal command in a bash shell on Linux. Just output the command the user is looking for, and nothing else. Do not make any comments, nor try to talk to the user in any way. Just output the bash command, iwthout any styling or comments. Don't add line breaks or quotes backticks or anything"},
             {"role": "user", "content": prompt},
         ],
     )
 
     answer = res["choices"][0]["message"]["content"]
 
-    print(answer)
+    commands = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are going to receive bash commands, along with other text. I want you to extract those bash commands, and output each one of them, separated by a \\n line break. Add a comment to explain in detail what the commands and their flags do."},
+            {"role": "user", "content": answer},
+        ],
+    )
+
+    command = commands["choices"][0]["message"]["content"]
+
+    typer.echo(answer)
+
+    typer.echo(command)
