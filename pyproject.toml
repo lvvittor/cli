@@ -11,6 +11,7 @@ ccli = "ccli.main:app"
 [tool.poetry.dependencies]
 python = "^3.10"
 typer = {extras = ["all"], version = "^0.7.0"}
+openai = "^0.27.2"
 
 
 [build-system]
