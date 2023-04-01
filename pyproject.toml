@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "ccli"
+version = "0.1.0"
+description = ""
+authors = ["Lucas Vittor <lvvittor@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+ccli = "ccli.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.7.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
