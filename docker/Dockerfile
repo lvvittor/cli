@@ -6,15 +6,17 @@ RUN pip install pipx
 RUN pipx install poetry
 ENV PATH="/root/.local/pipx/venvs/poetry/bin/:$PATH"
 
-COPY pyproject.toml /project/pyproject.toml
-COPY poetry.lock /project/poetry.lock
+COPY pyproject.toml /che-sandbox/pyproject.toml
+COPY poetry.lock /che-sandbox/poetry.lock
 
-WORKDIR /project
+RUN poetry config virtualenvs.create false
+
+WORKDIR /che-sandbox
 
 RUN --mount=type=cache,target=/root/.cache/pip \
     poetry install --with dev --no-root
 
-COPY . /project
+COPY . /che-sandbox
 
 RUN --mount=type=cache,target=/root/.cache/pip \
     poetry install --with dev --no-interaction
