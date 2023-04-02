@@ -6,7 +6,11 @@ Un ejemplo usando poetry (donde podemos usar otras herramientas, como firefox, q
 
 [screencast-from-02-04-23-060131_12lvtgJF.webm](https://user-images.githubusercontent.com/24721312/229343330-810ef166-33ca-46a6-a546-c052fe7ed4b7.webm)
 
+---
+---
 > ADVERTENCIA: OpenAI monitorea los repositorios de Github en busca de keys leakeadas, por lo que si no anda la concatenacion de `key_1` + `key_2` para formar `OPENAI_API_KEY` (ver archivo `.env.example`), podes probar creando tu propia API key en su [página oficial](https://platform.openai.com/account/api-keys).
+---
+---
 
 ## Correr usando imagen de Docker Hub
 
