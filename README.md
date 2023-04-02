@@ -2,7 +2,12 @@
 
 `che` te permite interactuar con tu terminal diciendole lo que queres hacer en lenguaje natural, sin necesidad de recordar todos los comandos de memoria.
 
+
+[screencast-from-02-04-23-052902_P2stU5BP.webm](https://user-images.githubusercontent.com/24721312/229342621-61b64e19-5ad1-48a0-97ef-709502823e2e.webm)
+
 [ezgif.com-video-to-gif.webm](https://user-images.githubusercontent.com/24721312/229342361-aefe5c04-042d-475a-8f24-f6d11fa5b2f2.webm)
+
+
 
 ## Correr usando imagen de Docker Hub
 
