@@ -3,11 +3,15 @@
 `che` te permite interactuar con tu terminal diciendole lo que queres hacer en lenguaje natural, sin necesidad de recordar todos los comandos de memoria.
 
 
+Algunos ejemplos usando el sandbox en docker:
+
 [screencast-from-02-04-23-052902_P2stU5BP.webm](https://user-images.githubusercontent.com/24721312/229342621-61b64e19-5ad1-48a0-97ef-709502823e2e.webm)
 
 [ezgif.com-video-to-gif.webm](https://user-images.githubusercontent.com/24721312/229342361-aefe5c04-042d-475a-8f24-f6d11fa5b2f2.webm)
 
+Un ejemplo usando poetry (donde podemos usar otras herramientas, como firefox, que el sandbox no tiene):
 
+[screencast-from-02-04-23-060131_12lvtgJF.webm](https://user-images.githubusercontent.com/24721312/229343330-810ef166-33ca-46a6-a546-c052fe7ed4b7.webm)
 
 ## Correr usando imagen de Docker Hub
 
