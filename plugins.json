@@ -15,7 +15,7 @@
     {
       "name": "DolarHoy",
       "path": "plugins/dolar_hoy.sh",
-      "description": "Get the current dollar price in Argentina and append it to a csv file."
+      "description": "Obtener el precio actual del dolar en Argentina y guardarlo en un archivo CSV. Sirve para cualquier tipo de dolar. Este ejecutable no lleva ningun parametro."
     }
   ]
 }

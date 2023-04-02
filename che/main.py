@@ -48,6 +48,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
     if plugin_type == "executable":
         # Call OpenAI API with the plugin path, description and prompt to get the command to execute along with its parameters
         command = get_executable_command(prompt, plugin_name)
+        print(f"> {command}")
         typer.launch(command)
         return
     
@@ -145,19 +146,7 @@ def get_executable_command(prompt, plugin_name):
         executables = metadata["executables"]
         for executable in executables:
             if executable["name"] == plugin_name:
-                path = executable["path"]
-                description = executable["description"]
-                break
-        res = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": f"You are going to receive a path and description of an executable file, along with a user message. Your job is to output the command to execute the executable file, along with its parameters, taking the parameters from the user message. Just ouput the command to execute, and nothing else. Do not make any comments, nor try to talk to the user in any way. Just output the bash command, without any styling or comments. Don't add line breaks or quotes backticks or anything."},
-                {"role": "user", "content": f"Executable path: {path}"},
-                {"role": "user", "content": f"Executable description: {description}"},
-                {"role": "user", "content": prompt},
-            ],
-        )
-        return res["choices"][0]["message"]["content"]
+                return executable["path"]
 
 
 def get_api_endpoint(prompt, plugin_name):
@@ -185,7 +174,7 @@ def get_answer_from_api(prompt):
     res = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are an AI Terminal Copilot. Your job is to help users find the right terminal command in a bash shell on Linux. Just output the command the user is looking for, and nothing else. Do not make any comments, nor try to talk to the user in any way under any circunstances. Just output the bash command, without any styling or comments. Don't add line breaks or quotes backticks or anything. If more than one command is requested, concatenate them with && so that they run one after the other. If the user asks for a command that is not possible, just output 'El comportamiento pedido no es posible de realizar actualmente.' instead of any commands. If you require access to information or resources that you do not have, just output what the commands would look like if you had access to that resource."},
+            {"role": "system", "content": "You are an AI Terminal Copilot. Your job is to help users find the right terminal command in a bash shell on Linux. Just output the command the user is looking for, and nothing else. If the user is not requiring a command and is just trying to chat, simply output 'Comando no encontrado'. Do not make any comments, nor try to talk to the user in any way under any circunstances. Just output the bash command, without any styling or comments. Don't add line breaks or quotes backticks or anything. If more than one command is requested, concatenate them with && so that they run one after the other. If the user asks for a command that is not possible, just output 'El comportamiento pedido no es posible de realizar actualmente.' instead of any commands. If you require access to information or resources that you do not have, just output what the commands would look like if you had access to that resource."},
             {"role": "user", "content": prompt},
         ],
     )
