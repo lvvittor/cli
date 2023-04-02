@@ -56,7 +56,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
         endpoint = get_api_endpoint(prompt, plugin_name)
         # Make a get request to the endpoint
         response = requests.get(endpoint)
-        typer.echo(response)
+        typer.echo(response.content)
         return
 
     try:
