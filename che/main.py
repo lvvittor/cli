@@ -49,7 +49,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
         # Call OpenAI API with the plugin path, description and prompt to get the command to execute along with its parameters
         command = get_executable_command(prompt, plugin_name)
         print(f"> {command}")
-        typer.launch(command)
+        typer.launch(f"./{command}")
         return
     
     if plugin_type == "api":

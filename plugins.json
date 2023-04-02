@@ -8,11 +8,6 @@
   ],
   "executables": [
     {
-      "name": "VideoSizeReducer",
-      "path": "plugins/VideoSizeReducer.sh",
-      "description": "Reduce the size of a video file by converting it to a lower resolution and/or lower bitrate. Receives the path to the video file as a parameter."
-    },
-    {
       "name": "DolarHoy",
       "path": "plugins/dolar_hoy.sh",
       "description": "Obtener el precio actual del dolar en Argentina y guardarlo en un archivo CSV. Sirve para cualquier tipo de dolar. Este ejecutable no lleva ningun parametro."
