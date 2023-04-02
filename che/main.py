@@ -6,6 +6,7 @@ import typer
 import pyperclip
 import pickle
 import json
+import requests
 from langchain.vectorstores import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.docstore.document import Document
@@ -18,7 +19,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 DATA_DIR = "./data"
 PLUGINS_DIR = "plugins"
 PLUGINS_FILE = "plugins.json"
-THRESHOLD = 0.45
+THRESHOLD = 0.45 # Top similarity to be considered a match with an existing plugin
 
 app = typer.Typer()
 
@@ -42,12 +43,20 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
 
     is_user_satisfied = None
     plugin_name = None
-    plugin_name = check_if_plugin_call(prompt)
+    plugin_name, plugin_type = check_if_plugin_call(prompt)
 
-    if plugin_name != None:
+    if plugin_type == "executable":
         # Call OpenAI API with the plugin path, description and prompt to get the command to execute along with its parameters
         command = get_executable_command(prompt, plugin_name)
         typer.launch(command)
+        return
+    
+    if plugin_type == "api":
+        # Call OpenAI API with the plugin path, description and prompt to get the command to execute along with its parameters
+        endpoint = get_api_endpoint(prompt, plugin_name)
+        # Make a get request to the endpoint
+        response = requests.get(endpoint)
+        typer.echo(response)
         return
 
     try:
@@ -101,12 +110,18 @@ def generate_plugin_embeddings():
         metadata = json.load(f)
         executables = metadata["executables"]
         apis = metadata["apis"]
-        for plugin in executables + apis:
-            if not os.path.isfile(os.path.join(DATA_DIR, f"{plugin['name']}.pickle")):
-                plugin_name = plugin["name"]
-                store = FAISS.from_documents([Document(page_content=plugin["description"], metadata={"plugin_name": plugin_name})], OpenAIEmbeddings(openai_api_key=openai.api_key))
-                with open(f"{DATA_DIR}/{plugin_name}.pickle", "wb") as f:
-                    pickle.dump(store, f)
+        for plugin in executables:
+            embed_plugin(plugin, "executable")
+        for plugin in apis:
+            embed_plugin(plugin, "api")
+            
+
+def embed_plugin(plugin, plugin_type):
+    if not os.path.isfile(os.path.join(DATA_DIR, f"{plugin['name']}.pickle")):
+        plugin_name = plugin["name"]
+        store = FAISS.from_documents([Document(page_content=plugin["description"], metadata={"plugin_name": plugin_name, "plugin_type": plugin_type})], OpenAIEmbeddings(openai_api_key=openai.api_key))
+        with open(f"{DATA_DIR}/{plugin_name}.pickle", "wb") as f:
+            pickle.dump(store, f)
 
 
 def check_if_plugin_call(prompt):
@@ -120,8 +135,8 @@ def check_if_plugin_call(prompt):
                 descriptions.append(description)
     top_match = sorted(descriptions, key=lambda x: x[1])[0]
     if top_match[1] < THRESHOLD:
-        return top_match[0].metadata["plugin_name"]
-    return None
+        return top_match[0].metadata["plugin_name"], top_match[0].metadata["plugin_type"]
+    return None, None
 
 
 def get_executable_command(prompt, plugin_name):
@@ -139,6 +154,27 @@ def get_executable_command(prompt, plugin_name):
                 {"role": "system", "content": f"You are going to receive a path and description of an executable file, along with a user message. Your job is to output the command to execute the executable file, along with its parameters, taking the parameters from the user message. Just ouput the command to execute, and nothing else. Do not make any comments, nor try to talk to the user in any way. Just output the bash command, without any styling or comments. Don't add line breaks or quotes backticks or anything."},
                 {"role": "user", "content": f"Executable path: {path}"},
                 {"role": "user", "content": f"Executable description: {description}"},
+                {"role": "user", "content": prompt},
+            ],
+        )
+        return res["choices"][0]["message"]["content"]
+
+
+def get_api_endpoint(prompt, plugin_name):
+    with open(PLUGINS_FILE, "rb") as f:
+        metadata = json.load(f)
+        apis = metadata["apis"]
+        for api in apis:
+            if api["name"] == plugin_name:
+                url = api["url"]
+                description = api["description"]
+                break
+        res = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": f"You are going to receive an url and description of an API, along with a user message. Your job is to get the URL ready for making a GET request, taking the parameters from the user message. Just ouput the URL, and nothing else. Do not make any comments, nor try to talk to the user in any way. Just output the URL, without any styling or comments. Don't add line breaks or quotes backticks or anything."},
+                {"role": "user", "content": f"API url: {url}"},
+                {"role": "user", "content": f"API description: {description}"},
                 {"role": "user", "content": prompt},
             ],
         )

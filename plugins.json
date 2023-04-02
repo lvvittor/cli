@@ -1,9 +1,9 @@
 {
   "apis": [
     {
-      "name": "MercadoLibre",
-      "url": "https://api.mercadolibre.com/sites/MLA/search?q=iphone&limit=10",
-      "description": "Get the best deals on iPhone 11 Pro Max 256GB at T-Mobile. Shop iPhone 11 Pro Max 256GB and compare the latest Apple iPhone 11 Pro Max 256GB prices and deals. Get FREE SHIPPING on phones and devices with new activations."
+      "name": "JSONPlaceholder",
+      "url": "https://jsonplaceholder.typicode.com/{entity_plural}",
+      "description": "Get the mock JSON data from an API REST. The entities allowed are posts, comments, albums, users, photos and todos."
     }
   ],
   "executables": [
