@@ -880,17 +880,6 @@ files = [
 plugins = ["importlib-metadata"]
 
 [[package]]
-name = "pyperclip"
-version = "1.8.2"
-description = "A cross-platform clipboard module for Python. (Only handles plain text for now.)"
-category = "main"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pyperclip-1.8.2.tar.gz", hash = "sha256:105254a8b04934f0bc84e9c24eb360a591aaf6535c9def5f29d92af107a9bf57"},
-]
-
-[[package]]
 name = "python-editor"
 version = "1.0.4"
 description = "Programmatically open an editor, capture the result."
@@ -1345,4 +1334,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "6316368a4fc4cababa28b6966b5f8af1829d8869b906cd4a39a8f15ba811fcdc"
+content-hash = "b52c4610886ebbfa39a8b6dc2cd7e85a40876032354d2858612670e6324ba9a4"

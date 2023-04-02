@@ -3,7 +3,6 @@ import openai
 import os
 import platform
 import typer
-import pyperclip
 import pickle
 import json
 import requests
@@ -75,7 +74,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
 
             # What to do with the answer
 
-            options = ["Ejecutar", "Copiar", "Explicar", "Corregir", "Salir"]
+            options = ["Ejecutar", "Explicar", "Corregir", "Salir"]
 
             menu_entry_index = None
 
@@ -86,12 +85,9 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
                     os.system(answer)
                     typer.echo("\n")
                 elif menu_entry_index == 1:
-                    print("> copied")
-                    pyperclip.copy(answer)
-                elif menu_entry_index == 2:
                     explanation = get_command_explanation(answer)
                     print_command(explanation, is_explanation=True)
-                elif menu_entry_index == 3:
+                elif menu_entry_index == 2:
                     is_user_satisfied = False
 
     except openai.error.APIError as e:
