@@ -2,16 +2,11 @@
 
 `che` te permite interactuar con tu terminal diciendole lo que queres hacer en lenguaje natural, sin necesidad de recordar todos los comandos de memoria.
 
-
-Algunos ejemplos usando el sandbox en docker:
-
-[screencast-from-02-04-23-052902_P2stU5BP.webm](https://user-images.githubusercontent.com/24721312/229342621-61b64e19-5ad1-48a0-97ef-709502823e2e.webm)
-
-[ezgif.com-video-to-gif.webm](https://user-images.githubusercontent.com/24721312/229342361-aefe5c04-042d-475a-8f24-f6d11fa5b2f2.webm)
-
 Un ejemplo usando poetry (donde podemos usar otras herramientas, como firefox, que el sandbox no tiene):
 
 [screencast-from-02-04-23-060131_12lvtgJF.webm](https://user-images.githubusercontent.com/24721312/229343330-810ef166-33ca-46a6-a546-c052fe7ed4b7.webm)
+
+> ADVERTENCIA: OpenAI monitorea los repositorios de Github en busca de keys leakeadas, por lo que si no anda la concatenacion de `key_1` + `key_2` para formar `OPENAI_API_KEY`, podes probar creando tu propia API key en su [página oficial](https://platform.openai.com/account/api-keys).
 
 ## Correr usando imagen de Docker Hub
 
@@ -28,7 +23,7 @@ docker pull lvittor/che:release
 2. Correr un contenedor.
 
 ```bash
-export OPENAI_API_KEY=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
+export OPENAI_API_KEY=<key_1> + <key_2>
 
 docker run --rm -it -e OPENAI_API_KEY="${OPENAI_API_KEY}" --entrypoint bash lvittor/che:release
 ```
@@ -45,7 +40,7 @@ root@940862468f02:/che-sandbox# che "imprimi en pantalla bienvenido al sandbox d
 
 > Requiere tener Docker instalado.
 
-1. Renombrar `.env.example` a `.env`.
+1. Renombrar `.env.example` a `.env`. Setear `OPENAI_API_KEY` concatenando las otras 2 keys.
 
 2. Construir imagen.
 
@@ -76,7 +71,7 @@ poetry install
 poetry shell
 ```
 
-3. Renombrar `.env.example` a `.env` y correr:
+3. Renombrar `.env.example` a `.env`. Setear `OPENAI_API_KEY` concatenando las otras 2 keys y correr:
 
 ```bash
 export $(cat .env | xargs)
