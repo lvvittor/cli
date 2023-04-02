@@ -11,3 +11,11 @@ export $(cat .env | xargs)
 ```
 che "listame los tres procesos que mas me consumen cpu y no me muestres el resto de procesos"
 ```
+
+```
+che ""
+```
+
+```
+che ""
+```

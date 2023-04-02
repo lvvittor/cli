@@ -42,7 +42,7 @@ def main(gen_plugins: bool = typer.Option(False, help="Generate plugin embedding
 
     is_user_satisfied = None
     plugin_name = None
-    # plugin_name = check_if_plugin_call(prompt)
+    plugin_name = check_if_plugin_call(prompt)
 
     if plugin_name != None:
         # Call OpenAI API with the plugin path, description and prompt to get the command to execute along with its parameters
