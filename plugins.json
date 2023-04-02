@@ -11,6 +11,11 @@
       "name": "VideoSizeReducer",
       "path": "plugins/VideoSizeReducer.sh",
       "description": "Reduce the size of a video file by converting it to a lower resolution and/or lower bitrate. Receives the path to the video file as a parameter."
+    },
+    {
+      "name": "DolarHoy",
+      "path": "plugins/dolar_hoy.sh",
+      "description": "Get the current dollar price in Argentina and append it to a csv file."
     }
   ]
 }
