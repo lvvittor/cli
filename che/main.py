@@ -134,9 +134,10 @@ def check_if_plugin_call(prompt):
                 store = pickle.load(f)
                 description = store.similarity_search_with_score(prompt, k=1)[0]
                 descriptions.append(description)
-    top_match = sorted(descriptions, key=lambda x: x[1])[0]
-    if top_match[1] < THRESHOLD:
-        return top_match[0].metadata["plugin_name"], top_match[0].metadata["plugin_type"]
+    if(descriptions):
+        top_match = sorted(descriptions, key=lambda x: x[1])[0]
+        if top_match[1] < THRESHOLD:
+            return top_match[0].metadata["plugin_name"], top_match[0].metadata["plugin_type"]
     return None, None
 
 
