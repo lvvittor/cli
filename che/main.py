@@ -21,8 +21,6 @@ PLUGINS_DIR = "plugins"
 PLUGINS_FILE = "plugins.json"
 THRESHOLD = 0.45 # Top similarity to be considered a match with an existing plugin
 
-if not os.path.exists(DATA_DIR): os.mkdir(DATA_DIR)
-
 app = typer.Typer()
 
 
